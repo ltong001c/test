@@ -157,31 +157,25 @@ public class TestRoutingPathController extends TestCase{
 
 	@Test
 	public void testRun() {
-		baggages = new LinkedList<>();
 	    Baggage baggage_1 = new Baggage("0001", entryPoints.get(0), "UA12");
-	    Baggage baggage_2 = new Baggage("0002", entryPoints.get(5), "UA17");
-	    Baggage baggage_3 = new Baggage("0003", entryPoints.get(2), "UA10");
-	    Baggage baggage_4 = new Baggage("0004", entryPoints.get(8), "UA18");
-	    Baggage baggage_5 = new Baggage("0005", entryPoints.get(7), "ARRIVAL");
-	    baggages.add(baggage_1);
-	    baggages.add(baggage_2);
-	    baggages.add(baggage_3);
-	    baggages.add(baggage_4);
-	    baggages.add(baggage_5);
+	    controller.run(baggage_1.getEntryPoint());
+	    Map<Integer,LinkedList<EntryPoint>> path_1 = controller.getPath(departures.get(baggage_1.getFlightId()));
+	    EntryPoint ep_1 = new EntryPoint("Concourse_A_Ticketing", "Concourse_A_Ticketing");
+	    EntryPoint ep_2 = new EntryPoint("A5", "A5");
+	    EntryPoint ep_3 = new EntryPoint("A1", "A1");
+	    path_1.forEach((k,v)->{
+	    	   Assert.assertEquals(Integer.valueOf(11), k);
+	    	   Assert.assertArrayEquals(v.toArray(), new EntryPoint[] {ep_1, ep_2, ep_3});
+		});
 	    
-	    for (Baggage baggage : baggages) {
-			getPathDuration(baggage);
-		}
-	}
-	
-	private void getPathDuration(Baggage baggage) {
-		
-		String baggageId = baggage.getBaggageId();
-		controller.run(baggage.getEntryPoint());
-		Map<Integer,LinkedList<EntryPoint>> path = controller.getPath(departures.get(baggage.getFlightId()));
-		
-		for (Map.Entry<Integer,LinkedList<EntryPoint>> pathDistance : path.entrySet()) {
-			System.out.println(baggageId +"\t" + pathDistance.getValue().toString() + ": "+pathDistance.getKey());
-		}
+	    Baggage baggage_2 = new Baggage("0003", entryPoints.get(2), "UA10");
+	    controller.run(baggage_2.getEntryPoint());
+	    Map<Integer,LinkedList<EntryPoint>> path_2 = controller.getPath(departures.get(baggage_2.getFlightId()));
+	    EntryPoint ep_4 = new EntryPoint("A2", "A2");
+	    EntryPoint ep_5 = new EntryPoint("A1", "A1");
+	    path_2.forEach((k,v)->{
+	    	   Assert.assertEquals(Integer.valueOf(1), k);
+	    	   Assert.assertArrayEquals(v.toArray(), new EntryPoint[] {ep_4, ep_5});
+		});
 	}
 }

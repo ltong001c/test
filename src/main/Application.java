@@ -40,9 +40,7 @@ public class Application {
 	    baggages.add(baggage_4);
 	    baggages.add(baggage_5);
 	    
-	    for (Baggage baggage : baggages) {
-			getPathDuration(baggage);
-		}
+	    baggages.forEach(baggage->getPathDuration(baggage));
 	}
 
 	private static void entryPointsConfig() {
@@ -111,8 +109,8 @@ public class Application {
 		controller.run(baggage.getEntryPoint());
 		Map<Integer,LinkedList<EntryPoint>> path = controller.getPath(departures.get(baggage.getFlightId()));
 		
-		for (Map.Entry<Integer,LinkedList<EntryPoint>> pathDistance : path.entrySet()) {
-			System.out.println(baggageId +"\t" + pathDistance.getValue().toString() + ": "+pathDistance.getKey());
-		}
+		path.forEach((k,v)->{
+			System.out.println(baggageId +"\t" + v + ": "+ k);
+		});
 	}
 }
