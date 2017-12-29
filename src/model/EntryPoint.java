@@ -1,10 +1,10 @@
 package model;
 
-public class Vertex {
+public class EntryPoint {
 	private final String id;
 	private final String name;
 
-	public Vertex(String id, String name) {
+	public EntryPoint(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -26,7 +26,7 @@ public class Vertex {
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		Vertex vertex = (Vertex) obj;
+		EntryPoint vertex = (EntryPoint) obj;
 		if (id == null) {
 			if (vertex.id != null)
 				return false;
